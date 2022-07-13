@@ -4,6 +4,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -36,8 +37,8 @@ public class ReactiveExample {
     }
 
     public Mono<Estudiante> mayorPuntajeDeEstudiante() {
-        return estudianteList.reduce((estudiante1, estudiante2) ->
-                estudiante1.getPuntaje() > estudiante2.getPuntaje() ? estudiante1 : estudiante2);
+        return estudianteList.sort(Comparator.reverseOrder())
+                .elementAt(0);
     }
 
     public Mono<Integer> totalDeAsisntenciasDeEstudiantesConMayorPuntajeDe(int valor) {
