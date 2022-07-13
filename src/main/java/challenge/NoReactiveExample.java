@@ -3,7 +3,6 @@ package challenge;
 import java.util.List;
 import java.util.Optional;
 import java.util.TreeSet;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -76,7 +75,7 @@ public class NoReactiveExample {
                     var est1 = new Estudiante(e.getNombre(), e.getPuntaje(), e.getAsistencias());
                     est1.setAprobado(true);
                     return est1;
-                }).orElseGet(() -> estudiante);
+                }).orElse(estudiante);
     }
 
 
