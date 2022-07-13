@@ -44,7 +44,7 @@ class NoReactiveExampleTest {
         //act
         var valor = noReactiveExample.totalDeAsisntenciasDeEstudiantesConMayorPuntajeDe(75);
         //assert
-        System.out.println(valor);
+        Assertions.assertEquals(43, valor);
     }
 
     @Test

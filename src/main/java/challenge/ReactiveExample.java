@@ -4,7 +4,9 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 
+import java.util.List;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 
 public class ReactiveExample {
@@ -13,37 +15,39 @@ public class ReactiveExample {
     private  Flux<Estudiante> estudianteList;
 
     public ReactiveExample() {
-        //TODO: convertir los estudiantes a un Flux
-
-       /* estudianteList = List.of(
+        this.estudianteList = Flux.fromIterable(List.of(
                 new Estudiante("raul", 30, List.of(1, 2, 1, 4, 5)),
                 new Estudiante("andres", 35, List.of(4, 2, 4, 3, 5)),
                 new Estudiante("juan", 75, List.of(3, 2, 4, 5, 5)),
                 new Estudiante("pedro", 80, List.of(5, 5, 4, 5, 5)),
                 new Estudiante("santiago", 40, List.of(4, 5, 4, 5, 5))
-        );
-*/
+        ));
     }
 
-    //TODO: suma de puntajes
     public Mono<Integer> sumaDePuntajes() {
-        return null;
+        return estudianteList.map(mapeoDeEstudianteAPuntaje())
+                .reduce(0, Integer::sum);
     }
 
     private Function<Estudiante, Integer> mapeoDeEstudianteAPuntaje() {
         return Estudiante::getPuntaje;
     }
 
-    //TODO: mayor puntaje de estudiante
-    public Mono<Estudiante> mayorPuntajeDeEstudiante(int limit) {
-        return null;
-
+    public Mono<Estudiante> mayorPuntajeDeEstudiante() {
+        return estudianteList.reduce((estudiante1, estudiante2) ->
+                estudiante1.getPuntaje() > estudiante2.getPuntaje() ? estudiante1 : estudiante2);
     }
 
-    //TODO: total de asisntencias de estudiantes con mayor puntaje basado en un  valor
     public Mono<Integer> totalDeAsisntenciasDeEstudiantesConMayorPuntajeDe(int valor) {
-        return null;
+        return estudianteList.filter(estudianteConPuntajeMayorDe(valor))
+                .flatMapIterable(Estudiante::getAsistencias)
+                .reduce(Integer::sum);
     }
+
+    public Predicate<Estudiante> estudianteConPuntajeMayorDe(int valor) {
+        return estudiante -> estudiante.getPuntaje() >= valor;
+    }
+
 
     //TODO: el estudiante tiene asistencias correctas
     public Mono<Boolean> elEstudianteTieneAsistenciasCorrectas(Estudiante estudiante) {

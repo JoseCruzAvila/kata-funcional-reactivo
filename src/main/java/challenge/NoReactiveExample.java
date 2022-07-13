@@ -24,12 +24,8 @@ public class NoReactiveExample {
 
     public Integer sumaDePuntajes() {
         return estudianteList.stream()
-                .map(this.mapeoDeEstudianteAPuntaje())
+                .map(Estudiante::getPuntaje)
                 .reduce(0, Integer::sum);
-    }
-
-    private Function<Estudiante, Integer> mapeoDeEstudianteAPuntaje() {
-        return Estudiante::getPuntaje;
     }
 
     public List<Estudiante> mayorPuntajeDeEstudiante(int limit) {
